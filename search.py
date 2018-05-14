@@ -7,7 +7,7 @@ SearchResult = collections.namedtuple('SearchResult', 'file, line, text')
 SearchResult.__str__ = lambda self: f' \n---------- MATCH ---------- \n' \
                                     f'file: {self.file} \n' \
                                     f'line: {self.line} \n' \
-                                    f'text: {self.text}'
+                                    f'text: {self.text.strip()}'
 
 APP_NAME = 'SEARCHER'
 
