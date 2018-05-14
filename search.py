@@ -22,9 +22,12 @@ def main():
         dir_name, text = get_argv_input()
         print(f'Searching {dir_name} for {text}')
 
-    results = search_dir(dir_name, text)
-    for result in results:
+    count = 0
+    for result in search_dir(dir_name, text):
+        count += 1
         print(result)
+
+    print(f'\nFound {count} results.')
 
 
 def print_header():
@@ -64,30 +67,23 @@ def get_search_text_input():
 
 
 def search_dir(dir, text):
-    all_matches = []
+    """Searches for text in through on every file in a directory"""
     items = os.listdir(dir)
-
     for item in items:
         full_item = os.path.join(dir, item)
         if os.path.isdir(full_item):
-            all_matches.extend(search_dir(full_item, text))
+            yield from search_dir(full_item, text)
         else:
-            matches = search_file(full_item, text)
-            all_matches.extend(matches)
-
-    return all_matches
+            yield from search_file(full_item, text)
 
 
 def search_file(filename, text):
-    matches = []
+    """Searches for text in filename, returns a SearchResult if text is found"""
     with open(filename, 'r', encoding='utf-8') as file:
-
         for line_index, line in enumerate(file):
             if line.lower().find(text) >= 0:
                 m = SearchResult(file=filename, line=line_index, text=line)
-                matches.append(m)
-
-    return matches
+                yield m
 
 
 if __name__ == '__main__':
