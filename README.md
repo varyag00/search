@@ -13,7 +13,7 @@ $ python search.py search_dir search_text
 ```
 Or:
 ```
-python search.py
+$ python search.py
 
 > Enter directory to search for: test_dir
 > Enter text to search for: Lorem
